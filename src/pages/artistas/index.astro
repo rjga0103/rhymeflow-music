@@ -11,32 +11,32 @@ const artists = await getArtists();
   description="Conoce a todos los artistas de Rhyme Flow Music. Talento urbano independiente distribuido via The Orchard."
 >
 
-  <section class="py-24 lg:py-36">
+  <section class="py-20 sm:py-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div class="mb-20">
-        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-neon-lime block mb-4">Roster</span>
-        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-black text-urban-white leading-[0.9] mb-8">
+      <div class="mb-14 sm:mb-20">
+        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-neon-lime block mb-3 sm:mb-4">Roster</span>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-display font-black text-urban-white leading-[0.9] mb-6 sm:mb-8">
           Nuestros<br /><span class="text-gradient">Artistas</span>
         </h1>
-        <p class="max-w-2xl text-lg text-urban-gray/70 leading-relaxed">
+        <p class="max-w-2xl text-base sm:text-lg text-urban-gray/60 leading-relaxed">
           Descubre el talento que forma parte de Rhyme Flow Music. Cada artista tiene su propia identidad, sonido y propuesta dentro del genero urbano.
         </p>
       </div>
 
       {
         artists.length > 0 ? (
-          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div class="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {artists.map((artist, i) => (
-              <div style={`animation-delay: ${i * 0.12}s`} class="reveal-scale">
+              <div style={`animation-delay: ${i * 0.1}s`} class="reveal-scale">
                 <ArtistCard artist={artist} />
               </div>
             ))}
           </div>
         ) : (
-          <div class="text-center py-32 border border-dashed border-white/[0.06] rounded-2xl reveal-up">
-            <svg class="w-16 h-16 text-urban-gray/20 mx-auto mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
-            <p class="text-urban-gray/60 text-lg">Pronto conoceras a nuestros artistas.</p>
+          <div class="text-center py-24 sm:py-32 border border-dashed border-white/[0.06] rounded-2xl reveal-up">
+            <svg class="w-14 h-14 sm:w-16 sm:h-16 text-urban-gray/15 mx-auto mb-5 sm:mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+            <p class="text-urban-gray/50 text-base sm:text-lg">Pronto conoceras a nuestros artistas.</p>
             <p class="text-urban-gray/30 text-sm mt-2">Roster en construccion.</p>
           </div>
         )

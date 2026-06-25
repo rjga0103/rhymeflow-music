@@ -4,8 +4,6 @@ const nav = [
   { label: "Artistas", href: "/artistas" },
   { label: "Contacto", href: "/contacto" },
 ];
-
-const currentPath = Astro.url?.pathname || "/";
 ---
 
 <style>
@@ -13,38 +11,103 @@ const currentPath = Astro.url?.pathname || "/";
     from { transform: translateY(-100%); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
-  .header-animate {
-    animation: header-reveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
+  .header-animate { animation: header-reveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
+
+  .mobile-menu { display: none; }
+  .mobile-menu.open { display: flex; }
 </style>
 
 <header class="fixed top-0 left-0 right-0 z-50 header-animate">
-  <div class="absolute inset-0 bg-urban-black/70 backdrop-blur-xl border-b border-white/[0.04]" />
+  <div class="absolute inset-0 bg-deep/80 backdrop-blur-2xl border-b border-white/[0.04]" />
   <nav class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2 group">
+    <a href="/" class="flex items-center gap-2 z-10">
       <span class="text-xl md:text-2xl font-display font-black tracking-tight">
         <span class="text-neon-lime glow-text-lime">RF</span><span class="text-urban-white">MUSIC</span>
       </span>
     </a>
 
-    <div class="flex items-center gap-1 sm:gap-2">
-      {nav.map((item) => {
-        const isActive = currentPath === item.href;
-        return (
-          <a
-            href={item.href}
-            class={`relative px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 ${
-              isActive
-                ? "text-urban-black bg-neon-lime"
-                : "text-urban-gray hover:text-urban-white hover:bg-white/[0.04]"
-            }`}
-          >
-            {item.label}
-          </a>
-        );
-      })}
+    <!-- Desktop nav -->
+    <div class="hidden sm:flex items-center gap-1">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class="relative px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-300 text-urban-gray hover:text-urban-white hover:bg-white/[0.04]"
+          data-nav-link={item.href}
+        >
+          {item.label}
+        </a>
+      ))}
     </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="menu-btn"
+      class="sm:hidden z-10 w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 text-urban-white"
+      aria-label="Menu"
+      aria-expanded="false"
+    >
+      <svg id="menu-icon-open" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+      <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+    </button>
   </nav>
+
+  <!-- Mobile menu overlay -->
+  <div id="mobile-menu" class="mobile-menu fixed inset-0 top-16 bg-deep/95 backdrop-blur-2xl flex-col pt-8 px-6 gap-2">
+    {nav.map((item) => (
+      <a
+        href={item.href}
+        class="block px-6 py-4 text-lg font-semibold text-urban-gray hover:text-urban-white rounded-2xl hover:bg-white/[0.04] transition-all duration-200"
+      >
+        {item.label}
+      </a>
+    ))}
+    <div class="mt-6 pt-6 border-t border-white/[0.06]">
+      <a
+        href="/contacto"
+        class="btn-primary w-full text-center"
+      >
+        Contacto
+      </a>
+    </div>
+  </div>
 </header>
 
 <div class="h-16" />
+
+<script>
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClose = document.getElementById("menu-icon-close");
+
+  btn?.addEventListener("click", () => {
+    const isOpen = menu!.classList.toggle("open");
+    iconOpen!.classList.toggle("hidden", isOpen);
+    iconClose!.classList.toggle("hidden", !isOpen);
+    btn.setAttribute("aria-expanded", String(isOpen));
+    document.body.style.overflow = isOpen ? "hidden" : "";
+  });
+
+  menu?.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("open");
+      iconOpen!.classList.remove("hidden");
+      iconClose!.classList.add("hidden");
+      btn!.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    });
+  });
+
+  // Highlight current
+  const currentPath = window.location.pathname;
+  document.querySelectorAll("[data-nav-link]").forEach((el: Element) => {
+    const href = el.getAttribute("data-nav-link");
+    if (href && currentPath.startsWith(href) && href !== "/" || href === "/" && currentPath === "/") {
+      el.classList.add("!text-neon-lime", "!bg-neon-lime/5");
+    }
+  });
+</script>

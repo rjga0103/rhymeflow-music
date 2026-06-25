@@ -1,60 +1,41 @@
 <script>
   const STORAGE_KEY = 'rfm-cookie-consent';
   const consent = localStorage.getItem(STORAGE_KEY);
-
-  if (!consent) {
-    document.documentElement.classList.add('cookie-banner-visible');
-  }
+  if (!consent) document.documentElement.classList.add('cookie-banner-visible');
 
   function acceptAll() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ essential: true, analytics: true, preferences: true, timestamp: Date.now() }));
     document.documentElement.classList.remove('cookie-banner-visible');
     document.getElementById('cookie-banner')?.remove();
   }
-
   function acceptEssential() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ essential: true, analytics: false, preferences: false, timestamp: Date.now() }));
     document.documentElement.classList.remove('cookie-banner-visible');
     document.getElementById('cookie-banner')?.remove();
   }
-
   document.addEventListener('DOMContentLoaded', () => {
-    if (consent) {
-      document.documentElement.classList.remove('cookie-banner-visible');
-      const banner = document.getElementById('cookie-banner');
-      if (banner) banner.remove();
-    }
+    if (consent) { document.documentElement.classList.remove('cookie-banner-visible'); document.getElementById('cookie-banner')?.remove(); }
   });
 </script>
 
 <style>
-  #cookie-banner {
-    display: none;
-  }
-  .cookie-banner-visible #cookie-banner {
-    display: block;
-  }
+  #cookie-banner { display: none; }
+  .cookie-banner-visible #cookie-banner { display: block; }
 </style>
 
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 z-50 p-4 bg-urban-card border-t border-white/10 shadow-2xl">
-  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-    <div class="flex-1">
-      <p class="text-sm text-urban-light leading-relaxed">
-        Usamos cookies propias y de terceros para mejorar tu experiencia. Puedes aceptar todas o solo las esenciales.
-        <a href="/politica-cookies" class="text-neon-lime underline hover:text-neon-lime-dim">Mas informacion</a>.
-      </p>
-    </div>
-    <div class="flex items-center gap-2 shrink-0">
-      <button
-        onclick="acceptEssential()"
-        class="px-4 py-2 text-sm font-medium text-urban-light border border-white/20 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
-      >
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4 bg-urban-card/95 backdrop-blur-2xl border-t border-white/[0.06] shadow-2xl">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+    <p class="text-xs sm:text-sm text-urban-light/80 leading-relaxed flex-1">
+      Usamos cookies propias y de terceros para mejorar tu experiencia.
+      <a href="/politica-cookies" class="text-neon-lime hover:underline whitespace-nowrap">Mas info</a>.
+    </p>
+    <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+      <button onclick="acceptEssential()"
+        class="flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-urban-light border border-white/10 rounded-xl hover:bg-white/[0.04] transition-colors cursor-pointer whitespace-nowrap">
         Solo esenciales
       </button>
-      <button
-        onclick="acceptAll()"
-        class="px-4 py-2 text-sm font-bold text-urban-black bg-neon-lime rounded-lg hover:bg-neon-lime-dim transition-colors cursor-pointer"
-      >
+      <button onclick="acceptAll()"
+        class="flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-bold text-deep bg-neon-lime rounded-xl hover:bg-neon-lime-dim transition-all duration-200 cursor-pointer whitespace-nowrap">
         Aceptar todas
       </button>
     </div>

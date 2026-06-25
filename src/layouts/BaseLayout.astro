@@ -25,13 +25,21 @@ const { title, description, image, url } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta name="theme-color" content="#060606" />
+    <meta name="color-scheme" content="dark" />
   </head>
-  <body class="bg-urban-black text-urban-white antialiased min-h-screen flex flex-col">
+  <body class="bg-deep text-urban-white antialiased min-h-screen flex flex-col">
+    <!-- Scroll progress -->
+    <div id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- Cursor glow (desktop) -->
+    <div id="cursor-glow" class="cursor-glow" aria-hidden="true" style="opacity:0"></div>
+
     <Header />
     <main class="flex-1">
       <slot />
@@ -40,3 +48,43 @@ const { title, description, image, url } = Astro.props;
     <CookieBanner />
   </body>
 </html>
+
+<script>
+  // Cursor glow
+  const glow = document.getElementById("cursor-glow");
+  if (glow && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+    document.addEventListener("mousemove", (e) => { tx = e.clientX; ty = e.clientY; });
+    function animateGlow() {
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      if (Math.abs(tx - cx) > 0.1) { glow.style.opacity = "1"; }
+      else { glow.style.opacity = "0"; }
+      requestAnimationFrame(animateGlow);
+    }
+    animateGlow();
+  }
+
+  // Particles in sections with data-particles
+  document.querySelectorAll("[data-particles]").forEach((container) => {
+    const count = 20;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement("div");
+      p.className = "particle absolute pointer-events-none";
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        bottom: -10px;
+        width: ${2 + Math.random() * 3}px;
+        height: ${2 + Math.random() * 3}px;
+        background: hsl(${60 + Math.random() * 60}, 100%, ${60 + Math.random() * 30}%);
+        border-radius: 50%;
+        --dur: ${6 + Math.random() * 10}s;
+        --delay: ${Math.random() * 8}s;
+        --drift: ${-30 + Math.random() * 60}px;
+        opacity: 0;
+      `;
+      container.appendChild(p);
+    }
+  });
+</script>
