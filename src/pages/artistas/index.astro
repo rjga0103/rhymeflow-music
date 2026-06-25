@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArtistCard from "../../components/ArtistCard.astro";
+import { getArtists } from "../../lib/supabase";
+
+const artists = await getArtists();
+---
+
+<BaseLayout
+  title="Artistas"
+  description="Conoce a todos los artistas de Rhyme Flow Music. Talento urbano independiente distribuido via The Orchard."
+>
+
+  <section class="py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="mb-16">
+        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-neon-lime">
+          Roster
+        </span>
+        <h1 class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-display font-black text-urban-white leading-[0.9]">
+          Nuestros<br />Artistas
+        </h1>
+        <p class="mt-6 max-w-2xl text-base text-urban-gray leading-relaxed">
+          Descubre el talento que forma parte de Rhyme Flow Music. Cada artista tiene
+          su propia identidad, sonido y propuesta dentro del genero urbano.
+        </p>
+      </div>
+
+      {
+        artists.length > 0 ? (
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {artists.map((artist) => (
+              <ArtistCard artist={artist} />
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-20 border border-dashed border-white/10 rounded-2xl">
+            <p class="text-urban-gray text-lg">Pronto conoceran a nuestros artistas.</p>
+            <p class="text-urban-gray/50 text-sm mt-2">Roster en construccion.</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+</BaseLayout>

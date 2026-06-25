@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --color-urban-black: #0a0a0a;
+  --color-urban-dark: #121212;
+  --color-urban-card: #1a1a1a;
+  --color-neon-lime: #c4ff0e;
+  --color-neon-lime-dim: #9ecf00;
+  --color-gold: #f5c518;
+  --color-gold-dim: #c49a10;
+  --color-urban-gray: #b3b3b3;
+  --color-urban-light: #e5e5e5;
+  --color-urban-white: #f5f5f5;
+
+  --font-display: "Clash Display", "Montserrat", system-ui, sans-serif;
+  --font-body: "Inter", "DM Sans", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-urban-black);
+    color: var(--color-urban-white);
+  }
+
+  body {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: var(--color-neon-lime);
+    color: var(--color-urban-black);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-neon-lime), var(--color-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-lime {
+    box-shadow: 0 0 40px rgba(196, 255, 14, 0.15), 0 0 80px rgba(196, 255, 14, 0.05);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 40px rgba(245, 197, 24, 0.15), 0 0 80px rgba(245, 197, 24, 0.05);
+  }
+}

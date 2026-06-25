@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactForm from "../components/ContactForm.astro";
+---
+
+<BaseLayout
+  title="Contacto"
+  description="Contacta con Rhyme Flow Music. Sello discografico independiente de musica urbana. Distribucion via The Orchard."
+>
+
+  <section class="py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-16 lg:grid-cols-2 lg:gap-24">
+
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-neon-lime">
+            Contacto
+          </span>
+          <h1 class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-display font-black text-urban-white leading-[0.9] mb-6">
+            Hablemos
+          </h1>
+          <p class="text-base text-urban-gray leading-relaxed mb-10">
+            Tanto si eres un artista buscando sello, como si quieres colaboraciones,
+            prensa o simplemente saludar. Estamos aqui.
+          </p>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-neon-lime/10 border border-neon-lime/20 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-neon-lime" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-urban-white">Email</h3>
+                <p class="text-sm text-urban-gray mt-1">info@rhymeflowmusic.net</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-neon-lime/10 border border-neon-lime/20 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-neon-lime" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-urban-white">Ubicacion</h3>
+                <p class="text-sm text-urban-gray mt-1">Espana</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

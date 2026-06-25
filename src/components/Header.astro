@@ -1,0 +1,39 @@
+---
+const nav = [
+  { label: "Home", href: "/" },
+  { label: "Artistas", href: "/artistas" },
+  { label: "Contacto", href: "/contacto" },
+];
+
+const currentPath = Astro.url?.pathname || "/";
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-urban-black/80 border-b border-white/5">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 group">
+      <span class="text-xl md:text-2xl font-display font-bold tracking-tight">
+        <span class="text-neon-lime">RF</span><span class="text-urban-white">MUSIC</span>
+      </span>
+    </a>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      {nav.map((item) => {
+        const isActive = currentPath === item.href;
+        return (
+          <a
+            href={item.href}
+            class={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+              isActive
+                ? "text-neon-lime bg-neon-lime/10"
+                : "text-urban-gray hover:text-urban-white hover:bg-white/5"
+            }`}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </div>
+  </nav>
+</header>
+
+<div class="h-16" />

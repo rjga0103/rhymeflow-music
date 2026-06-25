@@ -1,0 +1,79 @@
+---
+---
+
+<section id="contacto" class="relative">
+  <div class="max-w-2xl mx-auto">
+    <form
+      action="https://api.web3forms.com/submit"
+      method="POST"
+      class="space-y-6"
+    >
+      <input type="hidden" name="access_key" value="TU_WEB3FORMS_KEY" />
+      <input type="hidden" name="subject" value="Nuevo mensaje desde rhymeflowmusic.net" />
+      <input type="hidden" name="from_name" value="Rhyme Flow Music Web" />
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none;" />
+
+      <div>
+        <label for="name" class="block text-sm font-medium text-urban-light mb-2">
+          Nombre
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          placeholder="Tu nombre o nombre artistico"
+          class="w-full px-4 py-3 bg-urban-card border border-white/10 rounded-xl text-urban-white placeholder:text-urban-gray/50 focus:outline-none focus:border-neon-lime/50 focus:ring-1 focus:ring-neon-lime/30 transition-all"
+        />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-urban-light mb-2">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="tu@email.com"
+          class="w-full px-4 py-3 bg-urban-card border border-white/10 rounded-xl text-urban-white placeholder:text-urban-gray/50 focus:outline-none focus:border-neon-lime/50 focus:ring-1 focus:ring-neon-lime/30 transition-all"
+        />
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-medium text-urban-light mb-2">
+          Mensaje
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows="5"
+          placeholder="Cuentanos que necesitas..."
+          class="w-full px-4 py-3 bg-urban-card border border-white/10 rounded-xl text-urban-white placeholder:text-urban-gray/50 focus:outline-none focus:border-neon-lime/50 focus:ring-1 focus:ring-neon-lime/30 transition-all resize-none"
+        ></textarea>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <input
+          type="checkbox"
+          id="privacy"
+          name="privacy"
+          required
+          class="mt-1 h-4 w-4 rounded border-white/20 bg-urban-card text-neon-lime focus:ring-neon-lime/30"
+        />
+        <label for="privacy" class="text-sm text-urban-gray leading-relaxed">
+          He leido y acepto la <a href="/politica-privacidad" class="text-neon-lime hover:underline">Politica de Privacidad</a> y consiento el tratamiento de mis datos personales.
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full py-3.5 px-8 bg-neon-lime text-urban-black font-bold text-base rounded-xl hover:bg-neon-lime-dim transition-all duration-200 hover:glow-lime"
+      >
+        Enviar mensaje
+      </button>
+    </form>
+  </div>
+</section>
