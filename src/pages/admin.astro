@@ -1,0 +1,345 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Rhyme Flow Music</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: #060606;
+      color: #fafafa;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100svh;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+
+    /* Login */
+    .login-box {
+      min-height: 100svh; display: flex; align-items: center; justify-content: center;
+    }
+    .login-box form {
+      background: #0f0f0f; border: 1px solid rgba(255,255,255,0.06); border-radius: 1.5rem;
+      padding: 2.5rem; width: 100%; max-width: 400px;
+    }
+    .login-box h1 { font-family: Montserrat; font-weight: 900; font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .login-box h1 span { color: #d4ff00; }
+    .login-box input {
+      width: 100%; padding: 0.875rem 1rem; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 0.875rem; color: #fafafa; font-size: 1rem; margin-top: 0.5rem;
+    }
+    .login-box input:focus { outline: none; border-color: #d4ff00; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
+      font-weight: 600; font-size: 0.875rem; border-radius: 0.75rem; cursor: pointer;
+      border: none; transition: all 0.2s; font-family: inherit;
+    }
+    .btn-primary { background: #d4ff00; color: #060606; }
+    .btn-primary:hover { background: #b0d900; transform: translateY(-1px); }
+    .btn-danger { background: #ff2d95; color: #fff; }
+    .btn-danger:hover { background: #d9006e; }
+    .btn-ghost { background: transparent; color: #b3b3b3; border: 1px solid rgba(255,255,255,0.1); }
+    .btn-ghost:hover { border-color: #d4ff00; color: #d4ff00; }
+    .btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* Header */
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1rem 0; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .admin-header h1 { font-family: Montserrat; font-weight: 900; font-size: 1.5rem; }
+    .admin-header h1 span { color: #d4ff00; }
+
+    /* Artist list */
+    .artist-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem; }
+    .artist-row {
+      display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem;
+      background: #0f0f0f; border: 1px solid rgba(255,255,255,0.04); border-radius: 0.875rem;
+      transition: border-color 0.2s;
+    }
+    .artist-row:hover { border-color: rgba(212,255,0,0.2); }
+    .artist-row img { width: 48px; height: 48px; border-radius: 0.625rem; object-fit: cover; }
+    .artist-row .info { flex: 1; min-width: 0; }
+    .artist-row .info strong { font-size: 0.95rem; display: block; }
+    .artist-row .info span { font-size: 0.8rem; color: #b3b3b3; }
+    .artist-row .actions { display: flex; gap: 0.375rem; flex-shrink: 0; }
+
+    /* Modal / Form */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem;
+    }
+    .modal {
+      background: #0f0f0f; border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem;
+      padding: 2rem; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+    }
+    .modal h2 { font-family: Montserrat; font-weight: 800; font-size: 1.35rem; margin-bottom: 1.25rem; }
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.85rem; font-weight: 500; color: #b3b3b3; margin-bottom: 0.375rem; }
+    .field input, .field textarea {
+      width: 100%; padding: 0.75rem 1rem; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 0.75rem; color: #fafafa; font-size: 0.9rem; font-family: inherit;
+    }
+    .field input:focus, .field textarea:focus { outline: none; border-color: #d4ff00; }
+    .field textarea { min-height: 100px; resize: vertical; }
+    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
+    .dsp-field { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .dsp-field input { font-size: 0.85rem; padding: 0.625rem 0.75rem; }
+
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+      padding: 0.875rem 1.5rem; border-radius: 0.875rem; font-weight: 600; font-size: 0.9rem;
+      animation: slideIn 0.3s ease-out;
+    }
+    .toast-success { background: #d4ff00; color: #060606; }
+    .toast-error { background: #ff2d95; color: #fff; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hidden { display: none !important; }
+    .mt-4 { margin-top: 1rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .text-sm { font-size: 0.85rem; color: #b3b3b3; }
+    .text-center { text-align: center; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="login-screen" class="login-box">
+  <form id="login-form" onsubmit="login(event)">
+    <h1><span>RF</span> Admin</h1>
+    <p class="text-sm mb-2">Panel de administracion de artistas</p>
+    <input type="password" id="password" placeholder="Contrasena" autofocus />
+    <p id="login-error" class="text-sm hidden" style="color:#ff2d95;margin-top:0.5rem">Contrasena incorrecta</p>
+    <button type="submit" class="btn btn-primary btn-full mt-4">Entrar</button>
+  </form>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="dashboard" class="hidden">
+  <div class="container">
+    <div class="admin-header">
+      <h1><span>RF</span> Admin</h1>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="openAddForm()">+ Nuevo artista</button>
+        <button class="btn btn-ghost btn-sm" onclick="logout()">Salir</button>
+      </div>
+    </div>
+
+    <div id="artist-list" class="artist-list">
+      <p class="text-sm text-center">Cargando...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div id="modal" class="modal-overlay hidden">
+  <div class="modal">
+    <h2 id="modal-title">Nuevo artista</h2>
+    <form id="artist-form" onsubmit="saveArtist(event)">
+      <div class="field"><label>Nombre *</label><input type="text" id="f-name" required /></div>
+      <div class="field"><label>Genero</label><input type="text" id="f-genre" value="Urbano" /></div>
+      <div class="field"><label>Foto URL *</label><input type="url" id="f-photo" required placeholder="https://..." /></div>
+      <div class="field"><label>Biografia</label><textarea id="f-bio" placeholder="Biografia del artista..."></textarea></div>
+      <div class="field"><label>Orden</label><input type="number" id="f-order" value="0" /></div>
+      <div class="field"><label>Activo</label>
+        <select id="f-active" style="width:100%;padding:0.75rem;background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);border-radius:0.75rem;color:#fafafa">
+          <option value="true">Si</option><option value="false">No</option>
+        </select>
+      </div>
+      <fieldset style="border:1px solid rgba(255,255,255,0.06);border-radius:0.875rem;padding:1rem;margin-bottom:1rem">
+        <legend style="color:#b3b3b3;font-size:0.85rem;padding:0 0.5rem">Links DSP</legend>
+        <div class="dsp-field">
+          <input type="url" id="f-spotify" placeholder="Spotify URL" />
+          <input type="url" id="f-apple" placeholder="Apple Music URL" />
+          <input type="url" id="f-youtube" placeholder="YouTube URL" />
+          <input type="url" id="f-amazon" placeholder="Amazon URL" />
+          <input type="url" id="f-deezer" placeholder="Deezer URL" />
+          <input type="url" id="f-tidal" placeholder="Tidal URL" />
+        </div>
+      </fieldset>
+      <input type="hidden" id="f-id" />
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let token = localStorage.getItem("rfm_admin_token");
+  const API = "/api/admin";
+
+  async function api(method: string, body?: any, id?: string) {
+    const url = id ? `${API}?id=${id}` : API;
+    const res = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    if (res.status === 401) { logout(); throw new Error("Sesion expirada"); }
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error || "Error"); }
+    return res.json();
+  }
+
+  // Auth
+  if (token) showDashboard();
+
+  function login(e: Event) {
+    e.preventDefault();
+    const pw = (document.getElementById("password") as HTMLInputElement).value;
+    token = pw;
+    fetch(API, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => {
+        if (r.status === 401) {
+          document.getElementById("login-error")!.classList.remove("hidden");
+          token = null;
+        } else {
+          localStorage.setItem("rfm_admin_token", pw);
+          document.getElementById("login-error")!.classList.add("hidden");
+          showDashboard();
+        }
+      });
+  }
+
+  function logout() {
+    localStorage.removeItem("rfm_admin_token");
+    token = null;
+    document.getElementById("dashboard")!.classList.add("hidden");
+    document.getElementById("login-screen")!.classList.remove("hidden");
+  }
+
+  function showDashboard() {
+    document.getElementById("login-screen")!.classList.add("hidden");
+    document.getElementById("dashboard")!.classList.remove("hidden");
+    loadArtists();
+  }
+
+  // CRUD
+  async function loadArtists() {
+    const list = document.getElementById("artist-list")!;
+    try {
+      const artists = await api("GET");
+      if (!artists.length) {
+        list.innerHTML = '<p class="text-sm text-center" style="padding:3rem">No hay artistas. Crea el primero.</p>';
+        return;
+      }
+      list.innerHTML = artists.map((a: any) => `
+        <div class="artist-row">
+          <img src="${a.photo_url}" alt="${a.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 48 48%22><rect fill=%22%23111%22 width=%2248%22 height=%2248%22/></svg>'" />
+          <div class="info">
+            <strong>${a.name}</strong>
+            <span>${a.genre} &middot; Orden: ${a.sort_order} &middot; ${a.active ? "Activo" : "Inactivo"}</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-ghost btn-sm" onclick="openEditForm('${a.id}')">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteArtist('${a.id}','${a.name}')">Borrar</button>
+          </div>
+        </div>
+      `).join("");
+    } catch (e: any) {
+      list.innerHTML = `<p class="text-sm" style="color:#ff2d95;text-align:center">Error: ${e.message}</p>`;
+    }
+  }
+
+  async function openEditForm(id: string) {
+    try {
+      const a = await api("GET", undefined, id);
+      (document.getElementById("f-id") as HTMLInputElement).value = a.id;
+      (document.getElementById("f-name") as HTMLInputElement).value = a.name;
+      (document.getElementById("f-genre") as HTMLInputElement).value = a.genre;
+      (document.getElementById("f-photo") as HTMLInputElement).value = a.photo_url;
+      (document.getElementById("f-bio") as HTMLTextAreaElement).value = a.bio;
+      (document.getElementById("f-order") as HTMLInputElement).value = String(a.sort_order);
+      (document.getElementById("f-active") as HTMLSelectElement).value = String(a.active);
+      const dl = a.dsp_links || {};
+      (document.getElementById("f-spotify") as HTMLInputElement).value = dl.spotify || "";
+      (document.getElementById("f-apple") as HTMLInputElement).value = dl.apple || "";
+      (document.getElementById("f-youtube") as HTMLInputElement).value = dl.youtube || "";
+      (document.getElementById("f-amazon") as HTMLInputElement).value = dl.amazon || "";
+      (document.getElementById("f-deezer") as HTMLInputElement).value = dl.deezer || "";
+      (document.getElementById("f-tidal") as HTMLInputElement).value = dl.tidal || "";
+      document.getElementById("modal-title")!.textContent = "Editar artista";
+      document.getElementById("modal")!.classList.remove("hidden");
+    } catch (e: any) { toast(e.message, "error"); }
+  }
+
+  function openAddForm() {
+    (document.getElementById("artist-form") as HTMLFormElement).reset();
+    (document.getElementById("f-id") as HTMLInputElement).value = "";
+    (document.getElementById("f-genre") as HTMLInputElement).value = "Urbano";
+    (document.getElementById("f-active") as HTMLSelectElement).value = "true";
+    (document.getElementById("f-order") as HTMLInputElement).value = String(document.querySelectorAll(".artist-row").length + 1);
+    document.getElementById("modal-title")!.textContent = "Nuevo artista";
+    document.getElementById("modal")!.classList.remove("hidden");
+  }
+
+  function closeModal() { document.getElementById("modal")!.classList.add("hidden"); }
+
+  async function saveArtist(e: Event) {
+    e.preventDefault();
+    const id = (document.getElementById("f-id") as HTMLInputElement).value;
+    const body: any = {
+      name: (document.getElementById("f-name") as HTMLInputElement).value,
+      genre: (document.getElementById("f-genre") as HTMLInputElement).value,
+      photo_url: (document.getElementById("f-photo") as HTMLInputElement).value,
+      bio: (document.getElementById("f-bio") as HTMLTextAreaElement).value,
+      sort_order: parseInt((document.getElementById("f-order") as HTMLInputElement).value) || 0,
+      active: (document.getElementById("f-active") as HTMLSelectElement).value === "true",
+      dsp_links: {
+        spotify: (document.getElementById("f-spotify") as HTMLInputElement).value || null,
+        apple: (document.getElementById("f-apple") as HTMLInputElement).value || null,
+        youtube: (document.getElementById("f-youtube") as HTMLInputElement).value || null,
+        amazon: (document.getElementById("f-amazon") as HTMLInputElement).value || null,
+        deezer: (document.getElementById("f-deezer") as HTMLInputElement).value || null,
+        tidal: (document.getElementById("f-tidal") as HTMLInputElement).value || null,
+      },
+    };
+    try {
+      if (id) {
+        body.id = id;
+        await api("PUT", body);
+        toast("Artista actualizado", "success");
+      } else {
+        await api("POST", body);
+        toast("Artista creado. Recuerda redeployar en Vercel para publicarlo.", "success");
+      }
+      closeModal();
+      loadArtists();
+    } catch (e: any) { toast(e.message, "error"); }
+  }
+
+  async function deleteArtist(id: string, name: string) {
+    if (!confirm(`Borrar a "${name}"? Esta accion no se puede deshacer.`)) return;
+    try {
+      await api("DELETE", undefined, id);
+      toast("Artista eliminado", "success");
+      loadArtists();
+    } catch (e: any) { toast(e.message, "error"); }
+  }
+
+  function toast(msg: string, type: string) {
+    const t = document.createElement("div");
+    t.className = `toast toast-${type}`;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+  }
+
+  // Close modal on overlay click
+  document.getElementById("modal")!.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).id === "modal") closeModal();
+  });
+</script>
+</body>
+</html>
