@@ -8,11 +8,22 @@ const nav = [
 const currentPath = Astro.url?.pathname || "/";
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-urban-black/80 border-b border-white/5">
-  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<style>
+  @keyframes header-reveal {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .header-animate {
+    animation: header-reveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+</style>
+
+<header class="fixed top-0 left-0 right-0 z-50 header-animate">
+  <div class="absolute inset-0 bg-urban-black/70 backdrop-blur-xl border-b border-white/[0.04]" />
+  <nav class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2 group">
-      <span class="text-xl md:text-2xl font-display font-bold tracking-tight">
-        <span class="text-neon-lime">RF</span><span class="text-urban-white">MUSIC</span>
+      <span class="text-xl md:text-2xl font-display font-black tracking-tight">
+        <span class="text-neon-lime glow-text-lime">RF</span><span class="text-urban-white">MUSIC</span>
       </span>
     </a>
 
@@ -22,10 +33,10 @@ const currentPath = Astro.url?.pathname || "/";
         return (
           <a
             href={item.href}
-            class={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+            class={`relative px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 ${
               isActive
-                ? "text-neon-lime bg-neon-lime/10"
-                : "text-urban-gray hover:text-urban-white hover:bg-white/5"
+                ? "text-urban-black bg-neon-lime"
+                : "text-urban-gray hover:text-urban-white hover:bg-white/[0.04]"
             }`}
           >
             {item.label}

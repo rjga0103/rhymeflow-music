@@ -18,14 +18,18 @@ if (!artist) {
 }
 
 const dspLinks = artist.dsp_links || {};
-const dspIcons = [
-  { name: "Spotify", url: dspLinks.spotify, icon: "M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" },
-  { name: "Apple Music", url: dspLinks.apple, icon: "M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.5 16.5c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5 1.5.672 1.5 1.5-.672 1.5-1.5 1.5zM6 15V6l10.5-2v8.5c0 .828-.672 1.5-1.5 1.5s-1.5-.672-1.5-1.5.672-1.5 1.5-1.5c.155 0 .304.027.447.072L16.5 7.066 7.5 8.934V15c0 .828-.672 1.5-1.5 1.5S4.5 15.828 4.5 15z" },
-  { name: "YouTube", url: dspLinks.youtube, icon: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
-  { name: "Amazon Music", url: dspLinks.amazon, icon: "M13.199 12.793c-.25.284-.616.433-1.033.433-.8 0-1.299-.583-1.299-1.5 0-.867.45-1.483 1.2-1.483.434 0 .783.15 1.033.417l-.55.6c-.15-.183-.3-.267-.467-.267-.35 0-.583.3-.583.733 0 .467.25.734.6.734.184 0 .35-.084.5-.284l.549.617h.05zM7.699 11.71c0 .9-.517 1.5-1.25 1.5-.283 0-.55-.083-.75-.267v1.016L4.15 14.56V9.285h1.383l.05.316c.2-.2.45-.316.766-.316.75 0 1.35.6 1.35 2.425zM6.3 11.693c0-.5-.233-.817-.566-.817-.284 0-.484.15-.617.35v.884c.133.217.333.367.617.367.333 0 .566-.317.566-.784zM17.15 11.71c0 .883-.5 1.5-1.316 1.5-.267 0-.467-.084-.634-.234v.934h-1.55v-4.626h1.4v.3c.2-.216.45-.316.734-.316.783 0 1.366.584 1.366 1.442v1zM15.8 11.693c0-.5-.233-.817-.566-.817-.284 0-.484.15-.634.35v.884c.15.217.35.367.634.367.333 0 .566-.317.566-.784zM10.799 11.217c.733 0 1.316.6 1.316 1.5v.017c0 .867-.583 1.5-1.333 1.5-.733 0-1.316-.583-1.316-1.45v-.034c0-.917.583-1.533 1.333-1.533zm0 .967c-.35 0-.583.283-.583.733 0 .433.233.717.583.717.333 0 .583-.284.583-.717 0-.45-.25-.733-.583-.733zM18 0H6C2.686 0 0 2.686 0 6v12c0 3.314 2.686 6 6 6h12c3.314 0 6-2.686 6-6V6c0-3.314-2.686-6-6-6z" },
-  { name: "Deezer", url: dspLinks.deezer, icon: "M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.027h5.189V8.38h-5.19zm12.54 0v3.027H24V8.38h-5.19zM6.27 12.594v3.027h5.189v-3.027h-5.19zm6.271 0v3.027h6.27v-3.027h-6.27zm6.271 0v3.027H24v-3.027h-5.189z" },
-  { name: "Tidal", url: dspLinks.tidal, icon: "M12.013 0L8.396 3.625 4.79 7.25l3.606 3.625 3.617-3.625L8.396 3.625 12.013 0zM8.396 7.25L4.78 10.875 8.396 14.5l3.606-3.625-1.204-1.208-2.402 2.417-1.204-1.209 1.204-1.208L8.396 7.25zm4.822 2.417L12.013 8.46l-1.204 1.208 1.204 1.208 1.205-1.208z" },
+
+interface DspInfo { name: string; url?: string; color: string; icon: string }
+const dsps: DspInfo[] = [
+  { name: "Spotify", url: dspLinks.spotify, color: "#1DB954", icon: "M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2z" },
+  { name: "Apple Music", url: dspLinks.apple, color: "#FC3C44", icon: "M16.5 3C12.06 3 8.46 6.6 8.46 11.04c0 4.44 3.6 8.04 8.04 8.04 1.26 0 2.46-.3 3.54-.84v1.68c0 1.68-1.38 3.06-3.06 3.06H6.96c-1.68 0-3.06-1.38-3.06-3.06V9.96c0-1.68 1.38-3.06 3.06-3.06h1.08c.3 2.04 1.32 3.84 2.82 5.04-1.56 1.32-2.76 3.24-3.06 5.46h.78c.36-2.1 1.56-3.9 3.18-4.98 1.14 1.02 2.58 1.68 4.2 1.68 3.96 0 7.2-3.24 7.2-7.2S20.46 3 16.5 3z" },
+  { name: "YouTube", url: dspLinks.youtube, color: "#FF0000", icon: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
+  { name: "Amazon Music", url: dspLinks.amazon, color: "#00A8E1", icon: "M13.199 12.793c-.25.284-.616.433-1.033.433-.8 0-1.299-.583-1.299-1.5 0-.867.45-1.483 1.2-1.483.434 0 .783.15 1.033.417l-.55.6c-.15-.183-.3-.267-.467-.267-.35 0-.583.3-.583.733 0 .467.25.734.6.734.184 0 .35-.084.5-.284l.549.617h.05zM7.699 11.71c0 .9-.517 1.5-1.25 1.5-.283 0-.55-.083-.75-.267v1.016L4.15 14.56V9.285h1.383l.05.316c.2-.2.45-.316.766-.316.75 0 1.35.6 1.35 2.425zM6.3 11.693c0-.5-.233-.817-.566-.817-.284 0-.484.15-.617.35v.884c.133.217.333.367.617.367.333 0 .566-.317.566-.784z" },
+  { name: "Deezer", url: dspLinks.deezer, color: "#A238FF", icon: "M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.027h5.189V8.38h-5.19zm12.54 0v3.027H24V8.38h-5.19zM6.27 12.594v3.027h5.189v-3.027h-5.19zm6.271 0v3.027h6.27v-3.027h-6.27zm6.271 0v3.027H24v-3.027h-5.189z" },
+  { name: "Tidal", url: dspLinks.tidal, color: "#00FFFF", icon: "M12.013 0L8.396 3.625 4.79 7.25l3.606 3.625 3.617-3.625L8.396 3.625 12.013 0zM8.396 7.25L4.78 10.875 8.396 14.5l3.606-3.625-1.204-1.208-2.402 2.417-1.204-1.209 1.204-1.208L8.396 7.25zm4.822 2.417L12.013 8.46l-1.204 1.208 1.204 1.208 1.205-1.208z" },
 ];
+
+const activeDsps = dsps.filter(d => d.url);
 ---
 
 <BaseLayout
@@ -35,67 +39,74 @@ const dspIcons = [
   image={artist.photo_url}
 >
 
-  <section class="py-20 lg:py-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
+  <section class="relative py-16 lg:py-24 overflow-hidden">
+    <!-- Back nav -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <a
         href="/artistas"
-        class="inline-flex items-center gap-2 text-sm text-urban-gray hover:text-neon-lime transition-colors mb-12"
+        class="inline-flex items-center gap-2 text-sm text-urban-gray hover:text-neon-lime transition-colors group"
       >
-        <span aria-hidden="true">&larr;</span> Todos los artistas
+        <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Todos los artistas
       </a>
+    </div>
 
-      <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
-        <div class="relative">
-          <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-white/5 glow-lime">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-12 lg:grid-cols-2 lg:gap-20 items-center">
+
+        <!-- Photo -->
+        <div class="relative reveal-left">
+          <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-white/[0.06] glow-lime">
             <img
               src={artist.photo_url}
               alt={artist.name}
               class="w-full h-full object-cover"
             />
           </div>
+          <!-- Floating genre badge -->
+          <div class="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6">
+            <span class="inline-block px-5 py-2 text-sm font-semibold rounded-2xl bg-urban-card border border-neon-lime/20 text-neon-lime backdrop-blur-xl shadow-2xl">
+              {artist.genre}
+            </span>
+          </div>
         </div>
 
-        <div class="flex flex-col justify-center">
-          <span class="inline-block w-fit px-3 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-full bg-neon-lime/10 text-neon-lime border border-neon-lime/20 mb-6">
-            {artist.genre}
-          </span>
-
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-black text-urban-white leading-[0.95] mb-8">
+        <!-- Info -->
+        <div class="reveal-right">
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-black text-urban-white leading-[0.92] mb-8">
             {artist.name}
           </h1>
 
-          <div class="prose prose-invert prose-lg max-w-none">
-            <p class="text-base text-urban-gray leading-relaxed whitespace-pre-line">
+          <div class="prose prose-invert max-w-none">
+            <p class="text-base text-urban-gray/70 leading-relaxed whitespace-pre-line">
               {artist.bio}
             </p>
           </div>
 
-          <div class="mt-10 pt-8 border-t border-white/10">
-            <h3 class="text-sm font-semibold text-urban-white uppercase tracking-wider mb-5">
-              Escucha en
-            </h3>
-            <div class="flex flex-wrap gap-3">
-              {dspIcons.map((dsp) => {
-                if (!dsp.url) return null;
-                return (
-                  <a
-                    href={dsp.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-urban-card border border-white/10 rounded-xl text-sm font-medium text-urban-light hover:border-neon-lime/30 hover:text-neon-lime transition-all duration-200"
-                  >
-                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                      <path d={dsp.icon} />
-                    </svg>
-                    {dsp.name}
-                  </a>
-                );
-              })}
-            </div>
-            {dspIcons.every((d) => !d.url) && (
-              <p class="text-sm text-urban-gray">Proximamente en plataformas digitales.</p>
-            )}
+          <!-- DSP links -->
+          <div class="mt-12 pt-8 border-t border-white/[0.06]">
+            <h3 class="text-xs font-semibold text-urban-gray uppercase tracking-[0.2em] mb-6">Escucha en</h3>
+            {
+              activeDsps.length > 0 ? (
+                <div class="flex flex-wrap gap-3">
+                  {activeDsps.map((dsp) => (
+                    <a
+                      href={dsp.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="dsp-link inline-flex items-center gap-2.5 px-5 py-3 bg-urban-card border border-white/[0.06] rounded-xl text-sm font-semibold text-urban-light hover:text-urban-white transition-all duration-300 hover:border-white/15 hover:-translate-y-0.5 hover:shadow-lg"
+                    >
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill={dsp.color}>
+                        <path d={dsp.icon} />
+                      </svg>
+                      {dsp.name}
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <p class="text-sm text-urban-gray/50">Proximamente en plataformas digitales.</p>
+              )
+            }
           </div>
         </div>
       </div>

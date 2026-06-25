@@ -21,23 +21,57 @@ const { artist } = Astro.props as { artist: Artist };
 
 <a
   href={`/artistas/${artist.slug}`}
-  class="group relative block rounded-2xl overflow-hidden bg-urban-card border border-white/5 hover:border-neon-lime/30 transition-all duration-500 hover:glow-lime"
+  class="magnetic-card group relative block rounded-2xl overflow-hidden border border-white/[0.06] bg-urban-card transition-all duration-500 hover:border-neon-lime/20 hover:bg-urban-card-hover"
+  style="transform-style: preserve-3d; perspective: 800px;"
 >
   <div class="aspect-[3/4] relative overflow-hidden">
     <img
       src={artist.photo_url}
       alt={artist.name}
-      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       loading="lazy"
+      style="transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-urban-black via-urban-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
-    <div class="absolute bottom-0 left-0 right-0 p-5">
-      <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-neon-lime/15 text-neon-lime border border-neon-lime/20 mb-3">
+
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-urban-black via-urban-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+
+    <!-- Glow line on hover -->
+    <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neon-lime to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-x-0 group-hover:scale-x-100" style="transition: opacity 0.5s, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);" />
+
+    <!-- Content -->
+    <div class="absolute bottom-0 left-0 right-0 p-6">
+      <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-neon-lime/10 text-neon-lime border border-neon-lime/15 mb-4 transition-all duration-300 group-hover:bg-neon-lime/15 group-hover:border-neon-lime/30">
         {artist.genre}
       </span>
-      <h3 class="text-xl font-display font-bold text-urban-white leading-tight">
+      <h3 class="text-2xl font-display font-bold text-urban-white leading-tight transition-transform duration-500 group-hover:translate-y-[-2px]">
         {artist.name}
       </h3>
     </div>
   </div>
 </a>
+
+<script>
+  document.querySelectorAll('.magnetic-card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const el = e.currentTarget as HTMLElement;
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (y - centerY) / centerY * -5;
+      const rotateY = (x - centerX) / centerX * 8;
+      el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+    card.addEventListener('mouseleave', (e) => {
+      const el = e.currentTarget as HTMLElement;
+      el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      el.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+    card.addEventListener('mouseenter', (e) => {
+      const el = e.currentTarget as HTMLElement;
+      el.style.transition = 'transform 0.1s ease-out';
+    });
+  });
+</script>

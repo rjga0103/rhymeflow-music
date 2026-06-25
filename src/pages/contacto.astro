@@ -1,60 +1,104 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ContactForm from "../components/ContactForm.astro";
 ---
 
 <BaseLayout
   title="Contacto"
-  description="Contacta con Rhyme Flow Music. Sello discografico independiente de musica urbana. Distribucion via The Orchard."
+  description="Contacta con Rhyme Flow Music. Sello discografico independiente de musica urbana."
 >
 
-  <section class="py-20 lg:py-28">
+  <section class="py-24 lg:py-36">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid gap-16 lg:grid-cols-2 lg:gap-24">
+      <div class="grid gap-16 lg:grid-cols-2 lg:gap-28">
 
-        <div>
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-neon-lime">
-            Contacto
-          </span>
-          <h1 class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-display font-black text-urban-white leading-[0.9] mb-6">
+        <div class="reveal-left">
+          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-neon-lime block mb-6">Contacto</span>
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-black text-urban-white leading-[0.9] mb-8">
             Hablemos
           </h1>
-          <p class="text-base text-urban-gray leading-relaxed mb-10">
-            Tanto si eres un artista buscando sello, como si quieres colaboraciones,
-            prensa o simplemente saludar. Estamos aqui.
+          <p class="text-lg text-urban-gray/70 leading-relaxed mb-12">
+            Tanto si eres un artista buscando sello, como si quieres colaboraciones, prensa o simplemente saludar. Estamos aqui.
           </p>
 
-          <div class="space-y-6">
+          <div class="space-y-8">
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-neon-lime/10 border border-neon-lime/20 flex items-center justify-center shrink-0">
+              <div class="w-12 h-12 rounded-2xl bg-neon-lime/5 border border-neon-lime/10 flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5 text-neon-lime" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
               <div>
                 <h3 class="text-sm font-semibold text-urban-white">Email</h3>
-                <p class="text-sm text-urban-gray mt-1">info@rhymeflowmusic.net</p>
+                <p class="text-sm text-urban-gray/60 mt-1">info@rhymeflowmusic.net</p>
               </div>
             </div>
-
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-neon-lime/10 border border-neon-lime/20 flex items-center justify-center shrink-0">
+              <div class="w-12 h-12 rounded-2xl bg-neon-lime/5 border border-neon-lime/10 flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5 text-neon-lime" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
               </div>
               <div>
                 <h3 class="text-sm font-semibold text-urban-white">Ubicacion</h3>
-                <p class="text-sm text-urban-gray mt-1">Espana</p>
+                <p class="text-sm text-urban-gray/60 mt-1">Espana</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div>
-          <ContactForm />
+        <div class="reveal-right">
+          <div class="bg-urban-card border border-white/[0.06] rounded-2xl p-8 lg:p-10">
+            <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+              <input type="hidden" name="access_key" value="TU_WEB3FORMS_KEY" />
+              <input type="hidden" name="subject" value="Nuevo mensaje desde rhymeflowmusic.net" />
+              <input type="hidden" name="from_name" value="Rhyme Flow Music Web" />
+              <input type="checkbox" name="botcheck" class="hidden" style="display:none;" />
+
+              <div>
+                <label for="name" class="block text-sm font-medium text-urban-light mb-2">Nombre</label>
+                <input
+                  type="text" id="name" name="name" required
+                  placeholder="Tu nombre o nombre artistico"
+                  class="w-full px-4 py-3 bg-urban-dark border border-white/[0.08] rounded-xl text-urban-white placeholder:text-urban-gray/30 focus:outline-none focus:border-neon-lime/40 focus:ring-1 focus:ring-neon-lime/20 transition-all"
+                />
+              </div>
+
+              <div>
+                <label for="email" class="block text-sm font-medium text-urban-light mb-2">Email</label>
+                <input
+                  type="email" id="email" name="email" required
+                  placeholder="tu@email.com"
+                  class="w-full px-4 py-3 bg-urban-dark border border-white/[0.08] rounded-xl text-urban-white placeholder:text-urban-gray/30 focus:outline-none focus:border-neon-lime/40 focus:ring-1 focus:ring-neon-lime/20 transition-all"
+                />
+              </div>
+
+              <div>
+                <label for="message" class="block text-sm font-medium text-urban-light mb-2">Mensaje</label>
+                <textarea
+                  id="message" name="message" required rows="5"
+                  placeholder="Cuentanos que necesitas..."
+                  class="w-full px-4 py-3 bg-urban-dark border border-white/[0.08] rounded-xl text-urban-white placeholder:text-urban-gray/30 focus:outline-none focus:border-neon-lime/40 focus:ring-1 focus:ring-neon-lime/20 transition-all resize-none"
+                ></textarea>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <input type="checkbox" id="privacy" name="privacy" required
+                  class="mt-1 h-4 w-4 rounded border-white/10 bg-urban-dark text-neon-lime focus:ring-neon-lime/20"
+                />
+                <label for="privacy" class="text-sm text-urban-gray/60 leading-relaxed">
+                  He leido y acepto la <a href="/politica-privacidad" class="text-neon-lime hover:underline">Politica de Privacidad</a> y consiento el tratamiento de mis datos.
+                </label>
+              </div>
+
+              <button type="submit" class="btn-primary w-full">
+                Enviar mensaje
+                <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </button>
+            </form>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
