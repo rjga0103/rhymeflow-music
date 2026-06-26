@@ -57,14 +57,15 @@ const { title, description, image, url } = Astro.props;
   // Cursor glow
   const glow = document.getElementById("cursor-glow");
   if (glow && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    const g = glow;
     let tx = 0, ty = 0, cx = 0, cy = 0;
     document.addEventListener("mousemove", (e) => { tx = e.clientX; ty = e.clientY; });
     function animateGlow() {
       cx += (tx - cx) * 0.08;
       cy += (ty - cy) * 0.08;
-      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-      if (Math.abs(tx - cx) > 0.1) { glow.style.opacity = "1"; }
-      else { glow.style.opacity = "0"; }
+      g.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      if (Math.abs(tx - cx) > 0.1) { g.style.opacity = "1"; }
+      else { g.style.opacity = "0"; }
       requestAnimationFrame(animateGlow);
     }
     animateGlow();

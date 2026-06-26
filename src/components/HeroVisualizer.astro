@@ -28,7 +28,7 @@
   for (let i = 0; i < bars; i++) {
     barData.push(0.05);
     barTargets.push(randomTarget());
-    barColors.push(hues[Math.floor(Math.random() * hues.length)]);
+    barColors.push(String(hues[Math.floor(Math.random() * hues.length)]));
   }
 
   let frame = 0;
