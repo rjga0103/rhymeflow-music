@@ -38,8 +38,13 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
     line-height: 1.6;
+  }
+
+  /* Fix image rendering during scroll */
+  img, canvas {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 
   h1, h2, h3, h4 {
