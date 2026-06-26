@@ -11,28 +11,49 @@ const nav = [
     from { transform: translateY(-100%); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
-  .header-animate { animation: header-reveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
+  .header-animate { animation: header-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+  .header-scrolled {
+    --h-padding: 0;
+    --logo-scale: 1;
+    --nav-opacity: 1;
+  }
 
   .mobile-menu { display: none; }
   .mobile-menu.open { display: flex; }
+
+  /* Back to top */
+  #back-to-top {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  #back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
 </style>
 
 <header class="fixed top-0 left-0 right-0 z-50 header-animate">
-  <div class="absolute inset-0 bg-deep/80 backdrop-blur-2xl border-b border-white/[0.04]" />
-  <nav class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2 z-10">
+  <div class="absolute inset-0 bg-deep/75 backdrop-blur-2xl transition-all duration-500" id="header-bg"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent opacity-0 transition-opacity duration-500" id="header-border"></div>
+
+  <nav class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between transition-all duration-500" id="header-nav">
+    <a href="/" class="flex items-center gap-2 z-10 transition-transform duration-500" id="header-logo">
       <span class="text-xl md:text-2xl font-display font-black tracking-tight">
         <span class="text-neon-lime glow-text-lime">RF</span><span class="text-urban-white">MUSIC</span>
       </span>
     </a>
 
     <!-- Desktop nav -->
-    <div class="hidden sm:flex items-center gap-1">
+    <div class="hidden sm:flex items-center gap-1" id="desktop-nav">
       {nav.map((item) => (
         <a
           href={item.href}
-          class="relative px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-300 text-urban-gray hover:text-urban-white hover:bg-white/[0.04]"
-          data-nav-link={item.href}
+          class="nav-link relative px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-300 text-urban-gray hover:text-urban-white hover:bg-white/[0.04]"
+          data-section={item.href}
         >
           {item.label}
         </a>
@@ -42,7 +63,7 @@ const nav = [
     <!-- Mobile hamburger -->
     <button
       id="menu-btn"
-      class="sm:hidden z-10 w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 text-urban-white"
+      class="sm:hidden z-10 w-10 h-10 flex items-center justify-center rounded-xl border border-white/[0.08] text-urban-white bg-white/[0.02]"
       aria-label="Menu"
       aria-expanded="false"
     >
@@ -56,7 +77,7 @@ const nav = [
   </nav>
 
   <!-- Mobile menu overlay -->
-  <div id="mobile-menu" class="mobile-menu fixed inset-0 top-16 bg-deep/95 backdrop-blur-2xl flex-col pt-8 px-6 gap-2">
+  <div id="mobile-menu" class="mobile-menu fixed inset-0 top-16 bg-deep/95 backdrop-blur-2xl flex-col pt-8 px-6 gap-1">
     {nav.map((item) => (
       <a
         href={item.href}
@@ -65,49 +86,94 @@ const nav = [
         {item.label}
       </a>
     ))}
-    <div class="mt-6 pt-6 border-t border-white/[0.06]">
-      <a
-        href="/contacto"
-        class="btn-primary w-full text-center"
-      >
-        Contacto
-      </a>
-    </div>
   </div>
 </header>
 
-<div class="h-16" />
+<div class="h-16 md:h-20" />
+
+<!-- Back to top -->
+<button
+  id="back-to-top"
+  class="fixed bottom-6 right-6 z-40 w-11 h-11 flex items-center justify-center rounded-xl bg-neon-lime text-deep shadow-xl hover:bg-neon-lime-dim transition-colors duration-200"
+  aria-label="Volver arriba"
+  onclick="window.scrollTo({top:0,behavior:'smooth'})"
+>
+  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+</button>
 
 <script>
-  const btn = document.getElementById("menu-btn");
-  const menu = document.getElementById("mobile-menu");
-  const iconOpen = document.getElementById("menu-icon-open");
-  const iconClose = document.getElementById("menu-icon-close");
+  // ─── Mobile menu ───
+  const btn = document.getElementById("menu-btn")!;
+  const menu = document.getElementById("mobile-menu")!;
+  const iconOpen = document.getElementById("menu-icon-open")!;
+  const iconClose = document.getElementById("menu-icon-close")!;
 
-  btn?.addEventListener("click", () => {
-    const isOpen = menu!.classList.toggle("open");
-    iconOpen!.classList.toggle("hidden", isOpen);
-    iconClose!.classList.toggle("hidden", !isOpen);
+  btn.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("open");
+    iconOpen.classList.toggle("hidden", isOpen);
+    iconClose.classList.toggle("hidden", !isOpen);
     btn.setAttribute("aria-expanded", String(isOpen));
     document.body.style.overflow = isOpen ? "hidden" : "";
   });
-
-  menu?.querySelectorAll("a").forEach(link => {
+  menu.querySelectorAll("a").forEach(link => {
     link.addEventListener("click", () => {
       menu.classList.remove("open");
-      iconOpen!.classList.remove("hidden");
-      iconClose!.classList.add("hidden");
-      btn!.setAttribute("aria-expanded", "false");
+      iconOpen.classList.remove("hidden");
+      iconClose.classList.add("hidden");
+      btn.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
     });
   });
 
-  // Highlight current
+  // ─── Active nav link ───
   const currentPath = window.location.pathname;
-  document.querySelectorAll("[data-nav-link]").forEach((el: Element) => {
-    const href = el.getAttribute("data-nav-link");
-    if (href && currentPath.startsWith(href) && href !== "/" || href === "/" && currentPath === "/") {
-      el.classList.add("!text-neon-lime", "!bg-neon-lime/5");
+  const navLinks = document.querySelectorAll("[data-section]");
+  navLinks.forEach((el) => {
+    const href = el.getAttribute("data-section");
+    const isHome = href === "/" && (currentPath === "/" || currentPath === "/index.html");
+    const isMatch = href !== "/" && currentPath.startsWith(href!);
+    if (isHome || isMatch) {
+      el.classList.add("!text-neon-lime", "!bg-neon-lime/[0.06]");
     }
   });
+
+  // ─── Scroll effects: header shrink + back-to-top + border reveal ───
+  const headerBg = document.getElementById("header-bg")!;
+  const headerBorder = document.getElementById("header-border")!;
+  const headerNav = document.getElementById("header-nav")!;
+  const headerLogo = document.getElementById("header-logo")!;
+  const backToTop = document.getElementById("back-to-top")!;
+
+  let lastScroll = 0;
+  const shrinkThreshold = 60;
+
+  function updateHeader() {
+    const y = window.scrollY;
+    const progress = Math.min(y / shrinkThreshold, 1);
+
+    // Background opacity
+    headerBg.style.opacity = String(0.75 + progress * 0.25);
+
+    // Border reveal
+    headerBorder.style.opacity = String(progress);
+
+    // Nav height shrink (desktop)
+    if (window.innerWidth >= 640) {
+      const h = 80 - progress * 16; // 80 → 64
+      headerNav.style.height = `${h}px`;
+    }
+
+    // Back to top
+    if (y > 400) {
+      backToTop.classList.add("visible");
+    } else {
+      backToTop.classList.remove("visible");
+    }
+
+    lastScroll = y;
+  }
+
+  window.addEventListener("scroll", updateHeader, { passive: true });
+  window.addEventListener("resize", updateHeader, { passive: true });
+  updateHeader();
 </script>
