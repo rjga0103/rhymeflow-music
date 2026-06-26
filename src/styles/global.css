@@ -278,17 +278,30 @@
 
 /* ─── View Transitions ─── */
 ::view-transition-old(root) {
-  animation: fade-out 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: vt-fade-out 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 ::view-transition-new(root) {
-  animation: fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+  animation: vt-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
-@keyframes fade-out {
-  to { opacity: 0; transform: translateY(10px); }
+@keyframes vt-fade-out {
+  to { opacity: 0; transform: scale(0.98) translateY(-8px); }
 }
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(-10px); }
+@keyframes vt-slide-in {
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Transition for artist cards in grid - retains position */
+::view-transition-group(.artist-card) {
+  animation-duration: 0.5s;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
 }
 
 /* ─── Cursor Glow (desktop only) ─── */

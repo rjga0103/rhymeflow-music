@@ -39,6 +39,17 @@ export const GET: APIRoute = async ({ request }) => {
   return new Response(JSON.stringify(data));
 };
 
+const DEPLOY_HOOK = import.meta.env.DEPLOY_HOOK_URL || "";
+
+async function triggerDeploy() {
+  if (!DEPLOY_HOOK) return;
+  try {
+    await fetch(DEPLOY_HOOK, { method: "POST" });
+  } catch {
+    // silent fail - deploy hook is best-effort
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   if (!validateAuth(request)) return unauthorized();
 
@@ -52,6 +63,7 @@ export const POST: APIRoute = async ({ request }) => {
     .single();
 
   if (error) return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+  triggerDeploy();
   return new Response(JSON.stringify(data), { status: 201 });
 };
 
@@ -73,6 +85,7 @@ export const PUT: APIRoute = async ({ request }) => {
     .single();
 
   if (error) return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+  triggerDeploy();
   return new Response(JSON.stringify(data));
 };
 
@@ -85,5 +98,6 @@ export const DELETE: APIRoute = async ({ request }) => {
 
   const { error } = await serviceClient.from("artists").delete().eq("id", id);
   if (error) return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+  triggerDeploy();
   return new Response(JSON.stringify({ success: true }));
 };

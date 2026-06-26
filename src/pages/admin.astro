@@ -309,10 +309,10 @@ import "../styles/global.css";
       if (id) {
         body.id = id;
         await api("PUT", body);
-        toast("Artista actualizado", "success");
+        toast("Artista actualizado. Desplegando cambios...", "success");
       } else {
         await api("POST", body);
-        toast("Artista creado. Recuerda redeployar en Vercel para publicarlo.", "success");
+        toast("Artista creado. Desplegando cambios...", "success");
       }
       closeModal();
       loadArtists();
@@ -323,7 +323,7 @@ import "../styles/global.css";
     if (!confirm(`Borrar a "${name}"? Esta accion no se puede deshacer.`)) return;
     try {
       await api("DELETE", undefined, id);
-      toast("Artista eliminado", "success");
+      toast("Artista eliminado. Desplegando cambios...", "success");
       loadArtists();
     } catch (e: any) { toast(e.message, "error"); }
   }
